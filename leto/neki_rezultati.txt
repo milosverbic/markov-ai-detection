@@ -1,0 +1,151 @@
+federalist papers:
+
+problem sa federalist papersom je sto imam nebalansiran broj tekstova, 50 za hamiltona, 15+11 za madisona i samo 5 za jaya
+dobra strana je sto svi pisu o istoj temi i na isti nacin
+
+algoritam: euklidska
+
+istrenirao na hamiltonovim, madisonovim i jayevim tekstovima, testirao na 11 disputed tekstova (generalno se veruje da ih je madison napisao)
+{'HAMILTON': 4, 'MADISON': 7, 'JAY': 0}
+
+tacne euklidske distance matrice svakog pojedinacnog teksta od hamiltonovog lanca, madisonovog lanca i jayevog lanca, i predikcija
+[2.742433791831478, 2.750916525964597, 2.8890013154926977] HAMILTON
+[3.2572914265189046, 3.211171523056665, 3.4637646301113176] MADISON
+[2.809586486936075, 2.7386211154363265, 3.159210127285178] MADISON
+[2.2760266536704608, 2.111209059318716, 2.82304990196979] MADISON
+[1.9854118191426577, 1.9356796283304765, 2.105979097784618] MADISON
+[2.3707126172483344, 2.4365299975534924, 2.6928424580069854] HAMILTON
+[2.291073949259313, 2.2781288945209086, 2.5240317407466395] MADISON
+[2.3234624209642822, 2.3835944552872905, 2.7467531914571546] HAMILTON
+[2.3090672783208652, 2.2960096766186893, 2.7033797330390135] MADISON
+[1.830091366970281, 1.8840698032555434, 2.276241790387158] HAMILTON
+[1.7042935758068123, 1.6558613656807128, 1.9611400666253787] MADISON
+
+kada prodjem kroz svaki tekst u korpusu (hamilton, madison, jay, disputed), i iskoristim svaki tekst u korpusu za training OSIM NJEGA, i testiram na njemu
+(disputed tekstove sam pripisao madisonu)
+NAPISAO HAMILTON, PREDICTOVAO HAMILTON: 41
+NAPISAO HAMILTON, PREDICTOVAO MADISON: 9
+NAPISAO HAMILTON, PREDICTOVAO JAY: 0
+NAPISAO MADISON, PREDICTOVAO HAMILTON: 5
+NAPISAO MADISON, PREDICTOVAO MADISON: 10
+NAPISAO MADISON, PREDICTOVAO JAY: 0
+NAPISAO MADISON(DISPT), PREDICTOVAO HAMILTON: 2
+NAPISAO MADISON(DISPT), PREDICTOVAO MADISON: 9
+NAPISAO MADISON(DISPT), PREDICTOVAO JAY: 0
+NAPISAO JAY, PREDICTOVAO HAMILTON: 1
+NAPISAO JAY, PREDICTOVAO MADISON: 1
+NAPISAO JAY, PREDICTOVAO JAY: 3
+
+sve isto samo sam radio sa lancima od 75 reci umesto 50
+NAPISAO HAMILTON, PREDICTOVAO HAMILTON: 47
+NAPISAO HAMILTON, PREDICTOVAO MADISON: 3
+NAPISAO HAMILTON, PREDICTOVAO JAY: 0
+NAPISAO MADISON, PREDICTOVAO HAMILTON: 4
+NAPISAO MADISON, PREDICTOVAO MADISON: 11
+NAPISAO MADISON, PREDICTOVAO JAY: 0
+NAPISAO MADISON(DISPT), PREDICTOVAO HAMILTON: 2
+NAPISAO MADISON(DISPT), PREDICTOVAO MADISON: 9
+NAPISAO MADISON(DISPT), PREDICTOVAO JAY: 0
+NAPISAO JAY, PREDICTOVAO HAMILTON: 5
+NAPISAO JAY, PREDICTOVAO MADISON: 0
+NAPISAO JAY, PREDICTOVAO JAY: 0
+
+sve isto (50 reci) ali koristimo log-likelihood (alpha=0.5) kao algoritam umesto euklidske
+NAPISAO HAMILTON, PREDICTOVAO HAMILTON: 50
+NAPISAO HAMILTON, PREDICTOVAO MADISON: 0
+NAPISAO HAMILTON, PREDICTOVAO JAY: 0
+NAPISAO MADISON, PREDICTOVAO HAMILTON: 9
+NAPISAO MADISON, PREDICTOVAO MADISON: 6
+NAPISAO MADISON, PREDICTOVAO JAY: 0
+NAPISAO MADISON(DISPT), PREDICTOVAO HAMILTON: 1
+NAPISAO MADISON(DISPT), PREDICTOVAO MADISON: 10
+NAPISAO MADISON(DISPT), PREDICTOVAO JAY: 0
+NAPISAO JAY, PREDICTOVAO HAMILTON: 2
+NAPISAO JAY, PREDICTOVAO MADISON: 3
+NAPISAO JAY, PREDICTOVAO JAY: 0
+(mislim da ima bias prema autorima koji su istrenirani na vecem broju reci)
+
+
+
+
+enron emails:
+
+uzeo sam autore sally.beck@gmail.com i susan.scott@gmail.com
+zato sto su oboje imali ~90 reci po mejlu (svi sa vise ukupno napisanih mejlova od njih su ili imali dosta manji broj reci po mejlu, ili su pisali djubre)
+
+prosek - prosecan accuracy
+prosek sally - prosecan accuracy na tekstovima koje je napisala sally
+prosek susan - prosecan accuracy na tekstovima koje je napisala susan
+
+duzina segmenta = 500 reci, training_test_ratio = 0.8, alpha=0.1(za KL i log-likelihood), alpha=0(za ostale)
+
+
+pre nego sto sam sklonio rec "enron" iz liste reci:
+
+euklidska
+prosek: 0.7820270270270271
+prosek sally: 0.9221621621621623
+prosek susan: 0.6418918918918919
+
+log-likelihood
+prosek: 0.9325675675675675
+prosek sally: 0.952972972972973
+prosek susan: 0.9121621621621623
+
+JS
+prosek: 0.9066216216216216
+prosek sally: 0.8445945945945946
+prosek susan: 0.9686486486486487
+
+KL (mali lanac : veliki lanac)
+prosek: 0.8874324324324324
+prosek sally: 0.9121621621621623
+prosek susan: 0.8627027027027028
+
+reverse KL (veliki lanac : mali lanac)
+prosek: 0.8798648648648648
+prosek sally: 0.8972972972972972
+prosek susan: 0.8624324324324324
+
+kosinus
+prosek: 0.833378378378378
+prosek sally: 0.881081081081081
+prosek susan: 0.785675675675676
+
+
+nakon sto sam sklonio rec "enron" iz liste reci: (jer je rec vezana za neku temu)
+
+log-likelihood
+prosek: 0.9214864864864865
+prosek sally: 0.9436486486486487
+prosek susan: 0.8993243243243243
+
+JS
+prosek: 0.915
+prosek sally: 0.8985135135135135
+prosek susan: 0.9314864864864865
+
+
+varirao duzinu segmenata od 100 do 1000, algoritam: log-likelihood
+ovo je direktan output koda koji stoji u model2_enron.py
+
+segment length: 100
+prosek: 0.7766756756756757
+segment length: 200
+prosek: 0.846413043478261
+segment length: 300
+prosek: 0.8813709677419355
+segment length: 400
+prosek: 0.908586956521739
+segment length: 500
+prosek: 0.9232432432432433
+segment length: 600
+prosek: 0.9369354838709677
+segment length: 700
+prosek: 0.9513461538461538
+segment length: 800
+prosek: 0.9571739130434783
+segment length: 900
+prosek: 0.9645
+segment length: 1000
+prosek: 0.9552777777777777
