@@ -218,80 +218,89 @@ RECI = reciNR
 
 ALG = "logLikelihood"
 ALPHA = 0.1  # laplace smoothing, potreban za LLL i KL (inace treba da bude 0)
-for SEGMENT_LENGTH in range(100, 1100, 100):
+for SEGMENT_LENGTH in range(500, 1100, 5000):
     print("segment length:", SEGMENT_LENGTH)
 
     TRAIN_TEST_RATIO = 0.8
 
-    LABELI = ["SALLY", "SUSAN"]
+    LABELI = ["SALLY beck", "SUSAN scott", "perlingiere", "shackleton", "germany", "nemec", "taylor", "kaminski", "jones", "mann"]
 
-    SALLY_WORDS = 131270
-    SUSAN_WORDS = 92424
+    # SALLY_WORDS = 131270
+    # SUSAN_WORDS = 92424
+
+    words = [131270, 92424, 97765, 172199, 127410, 88182, 102111, 75481, 149057, 169624]
 
     PRINT = False
 
-    word_limit = min(SALLY_WORDS, SUSAN_WORDS)
+    word_limit = min(words)
     n_segments = word_limit // SEGMENT_LENGTH
     n_train = round(n_segments*TRAIN_TEST_RATIO)
     n_test = n_segments - n_train
-    n_sally = SALLY_WORDS // SEGMENT_LENGTH
-    n_susan = SUSAN_WORDS // SEGMENT_LENGTH
+    n_author = [w // SEGMENT_LENGTH for w in words]
 
-    # print(n_segments)
-    # print(n_train)
-    # print(n_test)
+    print(n_segments)
+    print(n_train)
+    print(n_test)
 
     # SALLY - 131270 reci (ukljucujuci EOF tokene)
     # SUSAN - 92424 reci (ukljucujuci EOF tokene)
+    # perlingiere - 97765
+    # shackleton - 172199
+    # germany - 127410
+    # nemec - 88182
+    # taylor - 102111
+    # kaminski - 75481
+    # jones - 149057
+    # mann - 169624
 
+    filenames = ["sally", "susan", "debra_perlingiere", "sara_shackleton", "chris_germany", "gerald_nemec", "mark_taylor", "vince_kaminski",
+                 "tana_jones", "kay_mann"]
 
-    with open("leto/enron_emails/sally.txt") as f:
-        sally_split = f.read().split()
-    with open("leto/enron_emails/susan.txt") as f:
-        susan_split = f.read().split()
+    splits = []
+    for fn in filenames:
+        with open("leto/enron_emails/"+fn+".txt") as f:
+            splits.append(f.read().split())
 
     ACC = []
     SAL = []
     SUS = []
 
-    for i in range(100):
+    for i in range(1):
 
-        sally_sample = R.sample(range(n_sally), n_segments)
-        sally_train = sally_sample[:n_train]
-        sally_test = sally_sample[n_train:]
-        susan_sample = R.sample(range(n_susan), n_segments)
-        susan_train = susan_sample[:n_train]
-        susan_test = susan_sample[n_train:]
+        samples = [R.sample(range(na), n_segments) for na in n_author]
+        train = [s[:n_train] for s in samples]
+        test = [s[n_train:] for s in samples]
 
-        sallyM = newChain(ALPHA)
-        susanM = newChain(ALPHA)
-        lanci = [sallyM, susanM]
+        lanci = [newChain(ALPHA) for i in range(len(LABELI))]
 
-        trainFromSample(sally_train, sally_split, sallyM)
-        normalize(sallyM)
-        trainFromSample(susan_train, susan_split, susanM)
-        normalize(susanM)
-        sallyR = testOnSample(sally_test, sally_split, lanci, alg=ALG)
-        susanR = testOnSample(susan_test, susan_split, lanci, alg=ALG)
+        for i in range(len(LABELI)):
+            trainFromSample(train[i], splits[i], lanci[i])
+            normalize(lanci[i])
+
+        results = []
+        for i in range(len(LABELI)):
+            results.append(testOnSample(test[i], splits[i], lanci, alg=ALG))
 
         # print("napisala sally, predictovao sally:", sallyR["SALLY"])
         # print("napisala sally, predictovao susan:", sallyR["SUSAN"])
         # print("napisala susan, predictovao sally:", susanR["SALLY"])
         # print("napisala susan, predictovao susan:", susanR["SUSAN"])
 
-        acc = (sallyR["SALLY"] + susanR["SUSAN"]) / (n_test*2)
-        sally_acc = sallyR["SALLY"] / n_test
-        susan_acc = susanR["SUSAN"] / n_test
+        # acc = (sallyR["SALLY"] + susanR["SUSAN"]) / (n_test*2)
+        # sally_acc = sallyR["SALLY"] / n_test
+        # susan_acc = susanR["SUSAN"] / n_test
             
         # print("\naccuracy:", acc)
-        ACC.append(acc)
-        SAL.append(sally_acc)
-        SUS.append(susan_acc)
+        # ACC.append(acc)
+        # SAL.append(sally_acc)
+        # SUS.append(susan_acc)
+
+        print(results)
 
     # print(ACC)
     # print(SAL)
     # print(SUS)
-    print("prosek:", sum(ACC)/len(ACC))
+    # print("prosek:", sum(ACC)/len(ACC))
     # print("prosek sally:", sum(SAL)/len(SAL))
     # print("prosek susan:", sum(SUS)/len(SUS))
 

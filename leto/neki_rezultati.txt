@@ -126,8 +126,11 @@ prosek sally: 0.8985135135135135
 prosek susan: 0.9314864864864865
 
 
-varirao duzinu segmenata od 100 do 1000, algoritam: log-likelihood
-ovo je direktan output koda koji stoji u model2_enron.py
+
+algoritam: log-likelihood
+
+varirao duzinu segmenata od 100 do 1000
+ovo je direktan output koda koji stoji u model2_enron.py (commit od 2.9.)
 
 segment length: 100
 prosek: 0.7766756756756757
@@ -149,3 +152,19 @@ segment length: 900
 prosek: 0.9645
 segment length: 1000
 prosek: 0.9552777777777777
+
+
+duzina segmenta = 500 reci
+dodao jos 8 autora iz enron dataseta (tako da ih je ukupno 10) i istrenirao i testirao JEDNOM
+
+SALLY beck,SUSAN scott,perlingiere,shackleton,germany,nemec,taylor,kaminski,jones,mann
+29,0,0,1,0,0,0,0,0,0
+2,19,0,1,0,0,6,0,1,1
+0,1,25,2,1,1,0,0,0,0
+2,1,0,20,2,0,1,1,0,3
+2,4,0,0,22,1,1,0,0,0
+0,1,0,1,1,25,1,0,0,1
+2,4,0,1,0,0,20,1,0,2
+0,2,0,0,0,0,1,26,1,0
+0,0,0,0,1,3,1,0,23,2
+0,3,1,2,0,1,5,0,1,17
