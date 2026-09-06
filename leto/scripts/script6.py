@@ -107,16 +107,16 @@ def export_multiple_authors_deduplicated(
 
         clean_name = author.split("@")[0].replace(".", "_")
         csv_out = f"{output_prefix}_{clean_name}.csv"
-        json_out = f"{output_prefix}_{clean_name}.json"
+        # json_out = f"{output_prefix}_{clean_name}.json"
 
         author_df.to_csv(csv_out, index=False, encoding="utf-8")
-        author_df.to_json(
-            json_out, orient="records", indent=2, force_ascii=False
-        )
+        # author_df.to_json(
+        #     json_out, orient="records", indent=2, force_ascii=False
+        # )
 
         exported_dfs[author] = author_df
         print(
-            f"Exported {len(author_df)} unique emails for {author} -> {csv_out}, {json_out}"
+            f"Exported {len(author_df)} unique emails for {author} -> {csv_out}"
         )
 
     return exported_dfs
@@ -124,8 +124,7 @@ def export_multiple_authors_deduplicated(
 
 # Example Usage:
 authors_to_extract = [
-    "sally.beck@enron.com",
-    "susan.scott@enron.com",
+    "kate.symes@enron.com",
 ]
 
 exported_data = export_multiple_authors_deduplicated(

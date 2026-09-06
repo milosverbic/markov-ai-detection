@@ -51,20 +51,45 @@ class IndexedCorpus:
 
 
 # Example usage:
-csv_list = ["leto/enron_emails/sally.csv"]  # Replace with your list of CSV paths
+csv_list = ["leto/enron_emails/kay_mann.csv"]  # Replace with your list of CSV paths
 corpus = IndexedCorpus(eof_marker="EOF")
-
 corpus.load_from_csvs(csv_list, text_column="pure_text")
+corpus.save_raw_corpus("leto/enron_emails/kay_mann.txt")
 
-corpus.save_raw_corpus("leto/enron_emails/sally.txt")
+# csv_list2 = ["leto/enron_emails/debra_perlingiere.csv"]  # Replace with your list of CSV paths
+# corpus2 = IndexedCorpus(eof_marker="EOF")
+# corpus2.load_from_csvs(csv_list2, text_column="pure_text")
+# corpus2.save_raw_corpus("leto/enron_emails/debra_perlingiere.txt")
 
-csv_list2 = ["leto/enron_emails/susan.csv"]  # Replace with your list of CSV paths
-corpus2 = IndexedCorpus(eof_marker="EOF")
+# csv_list3 = ["leto/enron_emails/sara_shackleton.csv"]  # Replace with your list of CSV paths
+# corpus3 = IndexedCorpus(eof_marker="EOF")
+# corpus3.load_from_csvs(csv_list3, text_column="pure_text")
+# corpus3.save_raw_corpus("leto/enron_emails/sara_shackleton.txt")
 
-corpus2.load_from_csvs(csv_list2, text_column="pure_text")
+# csv_list4 = ["leto/enron_emails/chris_germany.csv"]  # Replace with your list of CSV paths
+# corpus4 = IndexedCorpus(eof_marker="EOF")
+# corpus4.load_from_csvs(csv_list4, text_column="pure_text")
+# corpus4.save_raw_corpus("leto/enron_emails/chris_germany.txt")
 
-corpus2.save_raw_corpus("leto/enron_emails/susan.txt")
+# csv_list5 = ["leto/enron_emails/gerald_nemec.csv"]  # Replace with your list of CSV paths
+# corpus5 = IndexedCorpus(eof_marker="EOF")
+# corpus5.load_from_csvs(csv_list5, text_column="pure_text")
+# corpus5.save_raw_corpus("leto/enron_emails/gerald_nemec.txt")
 
+# csv_list6 = ["leto/enron_emails/mark_taylor.csv"]  # Replace with your list of CSV paths
+# corpus6 = IndexedCorpus(eof_marker="EOF")
+# corpus6.load_from_csvs(csv_list6, text_column="pure_text")
+# corpus6.save_raw_corpus("leto/enron_emails/mark_taylor.txt")
+
+# csv_list7 = ["leto/enron_emails/vince_kaminski.csv"]  # Replace with your list of CSV paths
+# corpus7 = IndexedCorpus(eof_marker="EOF")
+# corpus7.load_from_csvs(csv_list7, text_column="pure_text")
+# corpus7.save_raw_corpus("leto/enron_emails/vince_kaminski.txt")
+
+# csv_list8 = ["leto/enron_emails/tana_jones.csv"]  # Replace with your list of CSV paths
+# corpus8 = IndexedCorpus(eof_marker="EOF")
+# corpus8.load_from_csvs(csv_list8, text_column="pure_text")
+# corpus8.save_raw_corpus("leto/enron_emails/tana_jones.txt")
 
 
 # Read 50 words starting from exactly word 5000
